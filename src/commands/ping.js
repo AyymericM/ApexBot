@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'ping',
 	description: "Calculate the bot's heartbeat 🏓",
+	aliases: ['p'],
 	execute(client, msg, args) {
 		const heartbeat = `${Math.round(
 		client.pings.reduce((a, b) => {
