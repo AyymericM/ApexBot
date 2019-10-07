@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'ApexBot',
-  prefix: '+apexbot',
-  token: 'supersecrettoken'
-};
+	name: 'ApexBot',
+	prefix: '!apexbot',
+	token: 'supersecrettoken'
+}
