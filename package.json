@@ -1,0 +1,75 @@
+{
+  "name": "apexbot",
+  "version": "0.0.0",
+  "description": "Apex bot created for esport training",
+  "homepage": "https://github.com/AyymericM/ApexBot",
+  "author": {
+    "name": "AymericM",
+    "email": "aymeric.moehn@gmail.com",
+    "url": "https://aymericm.fr/"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "keywords": [
+    "Apex",
+    "Discord",
+    "Bot",
+    "esport",
+    "Apex Legends"
+  ],
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "prettier": "^1.18.2",
+    "husky": "^3.0.1",
+    "lint-staged": "^9.2.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-config-xo": "^0.26.0",
+    "jest": "^24.8.0"
+  },
+  "engines": {
+    "npm": ">= 4.0.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "xo",
+      "prettier"
+    ],
+    "env": {
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier"
+    ]
+  },
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "jest"
+  },
+  "repository": "AyymericM/apexbot",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "count-files": "^2.6.2",
+    "discord.js": "^11.5.1",
+    "fs": "0.0.1-security"
+  }
+}

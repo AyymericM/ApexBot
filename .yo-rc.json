@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "AymericM",
+      "authorEmail": "aymeric.moehn@gmail.com",
+      "authorUrl": "https://aymericm.fr/"
+    }
+  }
+}
