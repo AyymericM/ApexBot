@@ -61,7 +61,7 @@
   "scripts": {
     "pretest": "eslint .",
     "test": "jest",
-    "hideapi": "git chekout config.js"
+    "hideapi": "git checkout config.js"
   },
   "repository": "AyymericM/apexbot",
   "jest": {
