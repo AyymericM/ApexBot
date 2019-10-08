@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const path = require('path')
 const fs = require('fs')
+const isargsprovided = require('../helpers/isargsprovided')
 const config = require('../../config')
 
 module.exports = class ApexBot {
@@ -65,7 +66,7 @@ module.exports = class ApexBot {
 					return msg.reply("I can't execute that command inside DMs!")
 				}
 
-				if (command.args && !args.length) {
+				if (command.args && !isargsprovided(args)) {
 					// if the command has an args property, but none are passed...
 					let reply = "You didn't provide any arguments!"
 
@@ -80,7 +81,6 @@ module.exports = class ApexBot {
 				}
 
 				try {
-					console.log(command)
 					command.execute(this.client, msg, args) // try to execute the command
 				} catch (err) {
 					console.log(err)

@@ -1,4 +1,4 @@
-const path = require('path')
+const isargsprovided = require('../helpers/isargsprovided')
 const amount = require('count-files')('src/commands', (err, res) => {
   	if (err) return console.log(err);
 })
@@ -8,11 +8,14 @@ module.exports = {
 	description: 'Lists all of my commands or info about a specific command. ℹ',
 	aliases: ['commands', 'h', 'cmnds'],
 	usage: '[command name]',
+	args: false,
+	guildOnly: false,
+	ownerOnly: false,
   	execute(client, msg, args) {
 		const data = []
 		const commands = client.commands // get the list of commands
 
-		if (!args.length) {
+		if (!isargsprovided(args)) {
 			// if no arguments were passed...
 			data.push(`Here\'s a list of my **${amount.files}** commands: \`\`\``);
 			data.push(commands.map(command => command.name).join(', '));
