@@ -1,5 +1,6 @@
 const isargsprovided = require('../helpers/isargsprovided')
-const Stats = require('../models/Stats')
+const User = require('../schemas/User')
+const Stats = require('../schemas/Stats')
 
 module.exports = {
     name: 'stats',
@@ -10,14 +11,32 @@ module.exports = {
     args: false, // you need to pass some args to this command for it to run!
     usage: '!apexbot stats [add {kills} {damage} {placement}]', // in the example, it will tell the user to input some cool text as the argument
     execute(client, msg, args) {
-        console.log(msg)
         if (isargsprovided(args)) {
             if (args[2] === 'add' && args.length === 6) {
                 const stats = {
+                    author: msg.author.id,
                     kills: args[3],
                     damage: args[4],
                     placement: args[5]
                 }
+
+                const user = {
+                    id: msg.author.id,
+                    username: msg.author.username,
+                    discriminator: msg.author.discriminator,
+                    avatar: msg.author.avatar,
+                }
+
+                User.create(user).then(val => {
+                    console.log('[APEXBOT] val: ', val)
+                    Stats.create(stats)
+                }).catch(err => {
+                    if (err.code !== 11000) {
+                        console.log('[APEXBOT ERROR]', err)
+                    } else {
+                        Stats.create(stats)
+                    }
+                })
             } else {
                 console.log('uknown command')
                 // return uknown command
