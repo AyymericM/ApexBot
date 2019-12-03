@@ -1,48 +1,42 @@
-const isargsprovided = require('../helpers/isargsprovided')
-const User = require('../schemas/User')
-const Stats = require('../schemas/Stats')
+const d = require('discord.js')
+const axios = require('axios')
+const calculateRank = require('../helpers/calculateRank')
+const searchByKey = require('../helpers/searchByKey')
+const config = require('../../config')
 
 module.exports = {
-    name: 'stats',
-    aliases: ['s'], // this command can also now be called by the "cmdname" command!
-    description: 'Ajouter ou voir ses stats',
-    guildOnly: true, // this command can now only be run inside of a server!
-    ownerOnly: false, // this command can now only be run by the owner of a server!
-    args: false, // you need to pass some args to this command for it to run!
-    usage: '!apexbot stats [add {kills} {damage} {placement}]', // in the example, it will tell the user to input some cool text as the argument
-    execute(client, msg, args) {
-        if (isargsprovided(args)) {
-            if (args[2] === 'add' && args.length === 6) {
-                const stats = {
-                    author: msg.author.id,
-                    kills: args[3],
-                    damage: args[4],
-                    placement: args[5]
-                }
+	name: 'stats',
+	aliases: ['s'],
+	description: "Gives you your stats",
+	args: true,
+	guildOnly: false,
+	ownerOnly: false,
+	usage: '!apexbot stats [Player Name]',
+	execute(client, msg, args) {
+		if(args[2]) {
+			axios.get(`https://public-api.tracker.gg/apex/v1/standard/profile/5/${args[2]}`, {headers: { 'TRN-Api-Key': config.api_key }})
+			.then(res => {
+				const player = res.data.data.metadata
+				const stats = res.data.data.stats
+				const rankedScore = searchByKey(stats, 'RankScore').value
+				
+				console.log(stats)
 
-                const user = {
-                    id: msg.author.id,
-                    username: msg.author.username,
-                    discriminator: msg.author.discriminator,
-                    avatar: msg.author.avatar,
-                }
+				const embed = new d.RichEmbed()
+					.setTitle(`Stats for ${player.platformUserHandle}`)
+					.setColor('#ff0000')
+					.setAuthor('• ApexBot •')
+					.addField("Level:", player.level, true)
+					.addField("Ranked:", `${calculateRank(rankedScore)} (${rankedScore} RP)`, true)
+					.setFooter("Thanks for using ApexBot. keep grinding !")
 
-                User.create(user).then(val => {
-                    console.log('[APEXBOT] val: ', val)
-                    Stats.create(stats)
-                }).catch(err => {
-                    if (err.code !== 11000) {
-                        console.log('[APEXBOT ERROR]', err)
-                    } else {
-                        Stats.create(stats)
-                    }
-                })
-            } else {
-                console.log('uknown command')
-                // return uknown command
-            }
-        } else {
-            console.log('No args provided :(');
-        }
-    }
-}
+				msg.reply(embed)
+			}).catch(() => {
+				msg.reply(`This username doesn't exists.`)
+			})
+		} else {
+			msg.reply('Please give your origin username (eg: `!apexbot stats NRG_aceu`)')
+		}
+
+	}
+};
