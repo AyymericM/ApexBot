@@ -1,5 +1,5 @@
 const bot = require('./lib/ApexBot')
-const db = require('./lib/Database')
+//const db = require('./lib/Database')
+//new db()
 
-new db()
 new bot()

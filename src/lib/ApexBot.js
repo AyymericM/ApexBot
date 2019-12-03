@@ -38,7 +38,7 @@ module.exports = class ApexBot {
 					this.client.commands.find(cmd => cmd.aliases === commandName & cmd.aliases.includes(commandName))
 				
 				if (!command) {
-					console.log('No command')
+					console.log('[L41] No command')
 					return
 				}
 
